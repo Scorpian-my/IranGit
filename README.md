@@ -133,6 +133,7 @@
 ```bash
 git clone https://github.com/Scorpian-my/IranGit
 cd IranGit
+```
 ---
 
 ## 🤝 مشارکت در توسعهٔ IranGit
