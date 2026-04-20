@@ -134,6 +134,29 @@
 git clone https://github.com/Scorpian-my/IranGit
 cd IranGit
 ```
+
+### 2) نصب وابستگی‌ها
+(اختیاری) ساخت محیط مجازی:
+```
+python -m venv venv
+venv\Scripts\activate   # Windows
+
+source venv/bin/activate   # Linux / macOS
+```
+نصب کتابخانه‌ها:
+```
+pip install -r requirements.txt
+```
+### 3) افزودن توکن GitHub
+فایل .env را ویرایش کرده و توکن خود را اضافه کنید
+```
+GITHUB_TOKEN=your_github_token_here
+```
+### 4) اجرای پروژه
+```
+python main.py
+
+```
 ---
 
 ## 🤝 مشارکت در توسعهٔ IranGit
