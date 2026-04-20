@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="file-page">
+
+
+    <div class="file-header">
+        <h1 class="file-title">
+            <i class="bi bi-file-earmark-code"></i> {{ filename }}
+        </h1>
+        <a href="/repos/{{ owner }}/{{ repo }}" class="back-btn scale-hover">
+            <i class="bi bi-arrow-right-circle"></i> بازگشت
+        </a>
+    </div>
+
+    {% if is_image and image_data %}
+
+    <div class="image-viewer">
+        <img src="{{ image_data }}" alt="{{ filename }}" class="inline-image">
+    </div>
+    {% else %}
+
+    <div class="file-viewer">
+        <button class="copy-code-btn" onclick="copyCode()">
+            <i class="bi bi-clipboard"></i> کپی
+        </button>
+        <pre class="code-block"><code id="codeArea" class="language-{{ filename.split('.')[-1] }}">{{ content | e }}
+</code></pre>
+    </div>
+    {% endif %}
+
+</div>
+
+
+<link rel="stylesheet" href="/static/highlite/vs2015.min.css">
+<script src="/static/highlite/highlight.min.js"></script>
+<script src="/static/highlite/highlightjs-line-numbers.min.js"></script>
+
+<script>
+    hljs.highlightAll();
+    hljs.initLineNumbersOnLoad();
+
+    function copyCode() {
+        const text = document.getElementById("codeArea").innerText;
+        navigator.clipboard.writeText(text);
+
+        const btn = document.querySelector(".copy-code-btn");
+        btn.innerHTML = '<i class="bi bi-check2-circle"></i> کپی شد!';
+        setTimeout(() => btn.innerHTML = '<i class="bi bi-clipboard"></i> کپی', 1500);
+    }
+</script>
+
+{% endblock %}

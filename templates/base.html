@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <title>{{ title or "ایران گیت" }}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+
+    <link rel="stylesheet" href="/static/bootstrap/css/bootstrap.min.css">
+
+    <link rel="stylesheet" href="/static/bootstrap-icons.css">
+
+    <link rel="stylesheet" href="/static/style.css?t=1234">
+
+    <script src="/static/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        !function (e, t, n) {
+            e.yektanetAnalyticsObject = n;
+            e[n] = e[n] || function () { e[n].q.push(arguments) };
+            e[n].q = e[n].q || [];
+            var head = t.getElementsByTagName("head")[0],
+                now = new Date(),
+                src = "https://cdn.yektanet.com/superscript/Wpzp53CH/native-scorpian.ir-46082/yn_pub.js?v="
+                    + now.getFullYear() + "0" + now.getMonth() + "0" + now.getDate() + "0" + now.getHours(),
+                preload = t.createElement("link");
+            preload.rel = "preload";
+            preload.as = "script";
+            preload.href = src;
+            head.appendChild(preload);
+            var script = t.createElement("script");
+            script.async = true;
+            script.src = src;
+            head.appendChild(script);
+        }(window, document, "yektanet");
+    </script>
+</head>
+
+<body>
+
+
+    <header class="site-header">
+        <div class="header-container">
+            <a href="/" class="header-logo">
+                <img src="/static/icon/logo.webp" alt="Logo" class="logo-img">
+                <span class="logo-text">ایران گیت</span>
+            </a>
+
+            {% if show_search is not defined or show_search %}
+            <div class="header-search">
+                <form action="/search" method="get" class="search-form">
+                    <input type="text" name="q" placeholder="جستجو..." class="search-input">
+                    <button type="submit" class="search-btn">
+                        <i class="bi bi-search"></i>
+                    </button>
+                </form>
+            </div>
+            {% endif %}
+
+            <nav class="header-nav">
+                <a href="/" class="nav-link">
+                    <i class="bi bi-house-fill"></i> خانه
+                </a>
+                <a href="https://github.com/Scorpian-my" target="_blank" class="nav-link">
+                    <i class="bi bi-github"></i> گیت‌هاب
+                </a>
+                <a href="https://rubika.ir/IranGit" target="_blank" class="nav-link">
+                    <i class="bi bi-chat-dots-fill"></i> ارتباط
+                </a>
+                {% if show_donate is not defined or show_donate %}
+                <a href="https://daramet.com/Scorpian" target="_blank" class="nav-link donate-link">
+                    <span class="donate-icon">☕</span> حمایت
+                </a>
+                {% endif %}
+            </nav>
+        </div>
+    </header>
+
+
+    <main class="main-content">
+        {% block content %}{% endblock %}
+    </main>
+
+
+    <footer class="site-footer">
+        <div class="footer-container">
+            <div class="footer-grid">
+                <div class="footer-section">
+                    <h3><i class="bi bi-info-circle-fill"></i> درباره سرویس</h3>
+                    <p>این پلتفرم یک مرورگر و میرور پیشرفته برای GitHub است که با FastAPI توسعه یافته و امکان جستجو، مشاهده و دانلود مخازن را فراهم می‌کند.</p>
+                </div>
+
+                <div class="footer-section">
+                    <h3><i class="bi bi-link-45deg"></i> لینک‌های مفید</h3>
+                    <ul>
+                        <li><a href="/"><i class="bi bi-house"></i> صفحه اصلی</a></li>
+                        <li><a href="https://github.com/Scorpian-my" target="_blank"><i class="bi bi-github"></i> GitHub</a></li>
+                        <li><a href="https://rubika.ir/IranGit" target="_blank"><i class="bi bi-chat-dots"></i> اخبار</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h3><i class="bi bi-person-lines-fill"></i> ارتباط با ما</h3>
+                    <ul>
+                        <li><i class="bi bi-chat-square"></i> روبیکا: <a href="https://rubika.ir/IranGit" target="_blank">IranGit</a></li>
+                        <li><i class="bi bi-code-slash"></i> نسخه: 1.1.4</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <i class="bi bi-copyright"></i> 2026 — تمامی حقوق محفوظ است.
+            </div>
+        </div>
+    </footer>
+
+
+    <script>
+
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate-in');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.feature-card, .repo-card, .result-card, .release-card, .tree-item, .repo-file-item').forEach(el => {
+            el.classList.add('animate-on-scroll');
+            observer.observe(el);
+        });
+
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,159 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="hero">
+
+
+    <div class="hero-logo float-animate">
+        <img src="/static/icon/logo.webp" alt="Logo">
+    </div>
+
+    <a href="https://daramet.com/Scorpian" target="_blank" class="donate-btn-new" title="حمایت از توسعه‌دهنده">
+        <span class="donate-btn-icon">☕</span>
+        <span class="donate-btn-text">حمایت</span>
+    </a>
+
+    <h1 class="hero-title text-gradient">ایران گیت | تنها میرور ایرانی گیت‌هاب</h1>
+
+    <p class="hero-subtitle">
+        یک پلتفرم سریع، مدرن و قدرتمند برای جستجو، مشاهده و دانلود مخازن گیت‌هاب با رابط کاربری حرفه‌ای و کاملاً فارسی.
+    </p>
+
+    <form action="/search" method="get" class="search-glass">
+        <input type="text" name="q" placeholder="نام کاربر یا مخزن را وارد کنید...">
+        <button type="submit"><i class="bi bi-search"></i></button>
+    </form>
+</div>
+
+<div class="support-widget" id="supportWidget">
+    <button class="support-toggle" onclick="toggleSupport()">
+        <i class="bi bi-chat-dots-fill"></i>
+    </button>
+    <div class="support-panel">
+        <div class="support-header">
+            <span>پشتیبانی و ارتباط</span>
+            <button onclick="toggleSupport()"><i class="bi bi-x-lg"></i></button>
+        </div>
+        <div class="support-content">
+            <p>لطفا انتقاد، پیشنهاد و مشکلات را از قسمت <strong>ارتباط با ما</strong> در  تلگرام و یا روبیکا به اشتراک بگذارید.</p>
+            <a href="https://t.me/Dev_Scorpian" target="_blank" class="support-btn telegram">
+                <i class="bi bi-telegram"></i> تلگرام
+            </a>
+            <a href="https://rubika.ir/IranGit" target="_blank" class="support-btn">
+                <i class="bi bi-rubik"></i> روبیکا
+            </a>
+        </div>
+    </div>
+</div>
+
+
+<section class="features-section">
+    <h2 class="features-title text-gradient">قابلیت‌های کلیدی پلتفرم</h2>
+
+    <div class="features-grid">
+
+        <div class="feature-card">
+            <span class="feature-icon">
+                <i class="bi bi-person-badge"></i>
+            </span>
+            <h3>نمایش پروفایل کامل</h3>
+            <p>مشاهدهٔ اطلاعات کامل کاربر، مخازن، آواتار و آمار فعالیت.</p>
+        </div>
+
+        <div class="feature-card">
+            <span class="feature-icon">
+                <i class="bi bi-cloud-download"></i>
+            </span>
+            <h3>دانلود مستقیم مخازن</h3>
+            <p>دانلود ZIP با تشخیص خودکار شاخهٔ اصلی.</p>
+        </div>
+
+        <div class="feature-card">
+            <span class="feature-icon">
+                <i class="bi bi-lightning-charge"></i>
+            </span>
+            <h3>سرعت فوق‌العاده</h3>
+            <p>طراحی شده با FastAPI برای عملکرد سریع و سبک.</p>
+        </div>
+
+        <div class="feature-card">
+            <span class="feature-icon">
+                <i class="bi bi-shield-check"></i>
+            </span>
+            <h3>امنیت بالا</h3>
+            <p>استفاده از GitHub Token برای دسترسی امن.</p>
+        </div>
+
+        <div class="feature-card">
+            <span class="feature-icon">
+                <i class="bi bi-archive"></i>
+            </span>
+            <h3>جزئیات کامل مخزن</h3>
+            <p>نمایش توضیحات، ستاره‌ها، فورک‌ها و زبان برنامه‌نویسی.</p>
+        </div>
+    </div>
+</section>
+
+<section class="faq-section">
+    <h2 class="faq-title"><i class="bi bi-question-circle"></i> سوالات متداول</h2>
+
+    <div class="faq-item">
+        <button class="faq-question">
+            <i class="bi bi-lightbulb"></i> این پلتفرم چجوری کار می‌کنه؟
+        </button>
+        <div class="faq-answer">
+            <p>سایت از طریق API به GitHub وصل میشه و اطلاعات رو به‌صورت زنده دریافت می‌کنه.</p>
+        </div>
+    </div>
+
+    <div class="faq-item">
+        <button class="faq-question">
+            <i class="bi bi-download"></i> فایل بخوام میتونم دانلود کنم؟
+        </button>
+        <div class="faq-answer">
+            <p>بله! دانلود ZIP، Clone و مشاهدهٔ فایل‌ها کاملاً پشتیبانی میشه.</p>
+        </div>
+    </div>
+
+    <div class="faq-item">
+        <button class="faq-question">
+            <i class="bi bi-currency-exchange"></i> استفاده ازش رایگانه؟
+        </button>
+        <div class="faq-answer">
+            <p>کاملاً رایگان — این پلتفرم برای کمک به توسعه‌دهنده‌ها ساخته شده.</p>
+        </div>
+    </div>
+</section>
+
+<script>
+document.querySelectorAll(".faq-question").forEach(btn => {
+    btn.addEventListener("click", () => {
+        const ans = btn.nextElementSibling;
+        if (ans.classList.contains("show")) {
+            ans.classList.remove("show");
+            setTimeout(() => ans.style.display = "none", 200);
+        } else {
+            ans.style.display = "block";
+            setTimeout(() => ans.classList.add("show"), 10);
+        }
+    });
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+    if (localStorage.getItem("donatePopupClosed") === "true") return;
+    setTimeout(() => {
+        document.getElementById("donate-popup").style.display = "flex";
+    }, 900);
+});
+
+function closeDonate() {
+    localStorage.setItem("donatePopupClosed", "true");
+    document.getElementById("donate-popup").style.display = "none";
+}
+
+function toggleSupport() {
+    document.querySelector(".support-panel").classList.toggle("show");
+}
+</script>
+
+{% endblock %}

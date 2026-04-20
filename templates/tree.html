@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="tree-page">
+
+
+    <div class="breadcrumb">
+        <a href="/repos/{{ owner }}/{{ repo }}/tree/">
+            <i class="bi bi-folder-fill"></i> {{ repo }}
+        </a>
+        {% if path %}
+            {% set parts = path.split('/') %}
+            {% set current = "" %}
+            {% for p in parts %}
+                {% set current = current + p %}
+                › <a href="/repos/{{ owner }}/{{ repo }}/tree/{{ current }}">{{ p }}</a>
+                {% set current = current + "/" %}
+            {% endfor %}
+        {% endif %}
+    </div>
+
+
+    <h2 class="section-title"><i class="bi bi-folder2-open"></i> مسیر: {{ path or "/" }}</h2>
+
+
+    {% set parent = path.rsplit('/', 1)[0] if path and '/' in path else '' %}
+    <a class="folder-back-btn scale-hover"
+       href="/repos/{{ owner }}/{{ repo }}{% if parent %}/tree/{{ parent }}{% endif %}">
+        <i class="bi bi-arrow-up-circle"></i> یک پوشه بالاتر
+    </a>
+
+
+    <div class="tree-list">
+        {% for item in contents %}
+            {% if item.type == "dir" %}
+                <a class="tree-item scale-hover" href="/repos/{{ owner }}/{{ repo }}/tree/{{ item.path }}">
+                    <i class="bi bi-folder-fill folder-icon"></i>
+                    <span class="tree-name">{{ item.name }}</span>
+                </a>
+            {% else %}
+                <a class="tree-item scale-hover" href="/repos/{{ owner }}/{{ repo }}/blob/{{ item.path }}">
+                    <i class="bi bi-file-earmark-code file-icon"></i>
+                    <span class="tree-name">{{ item.name }}</span>
+                </a>
+            {% endif %}
+        {% endfor %}
+    </div>
+
+</div>
+
+{% endblock %}

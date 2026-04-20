@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="profile-container">
+
+
+    <div class="profile-card">
+        <div class="avatar-ring-pulse">
+            <img src="/avatar/{{ user.login }}" class="avatar" alt="{{ user.login }}">
+        </div>
+
+        <h2 class="text-gradient">{{ user.login }}</h2>
+
+        <p class="bio">
+            <i class="bi bi-emoji-smile"></i>
+            {{ user.bio or "این کاربر توضیحاتی ثبت نکرده است." }}
+        </p>
+
+        <div class="stats">
+            <div><i class="bi bi-people"></i> <strong>{{ user.followers }}</strong> دنبال‌کننده</div>
+            <div><i class="bi bi-person-plus"></i> <strong>{{ user.following }}</strong> دنبال‌شونده</div>
+            <div><i class="bi bi-folder"></i> <strong>{{ user.public_repos }}</strong> مخزن عمومی</div>
+        </div>
+    </div>
+
+
+    <h2 class="section-title"><i class="bi bi-archive"></i> مخازن کاربر</h2>
+
+
+    <div class="repo-list">
+        {% for repo in repos %}
+        <a href="/repos/{{ user.login }}/{{ repo.name }}" class="repo-card scale-hover">
+
+            <div class="repo-card-header">
+                <i class="bi bi-folder2"></i>
+                <h3>{{ repo.name }}</h3>
+            </div>
+
+            <p class="repo-description">
+                {{ repo.description or "بدون توضیحات" }}
+            </p>
+
+            <div class="repo-meta">
+                <span><i class="bi bi-star-fill"></i> {{ repo.stargazers_count }}</span>
+                <span><i class="bi bi-branch"></i> {{ repo.forks_count }}</span>
+                <span><i class="bi bi-code-slash"></i> {{ repo.language or "نامشخص" }}</span>
+            </div>
+
+        </a>
+        {% endfor %}
+    </div>
+
+</div>
+
+{% endblock %}

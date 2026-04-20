@@ -1,0 +1,239 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="repo-page">
+
+
+    <div class="repo-hero">
+
+        <div class="repo-header">
+
+            <div class="avatar-ring">
+                <img src="/avatar/{{ owner }}" width="56" height="56" alt="avatar">
+            </div>
+
+
+            <div>
+                <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+                    <h1 class="repo-title">
+                        <a href="/users/{{ owner }}" class="repo-owner">{{ owner }}</a>
+                        <span class="repo-slash">/</span>
+                        <span class="repo-name">{{ repo_name }}</span>
+                    </h1>
+                    {% if repo.default_branch %}
+                    <span class="branch-badge">
+                        <i class="bi bi-git"></i> {{ repo.default_branch }}
+                    </span>
+                    {% endif %}
+                </div>
+                {% if repo.description %}
+                <p class="repo-desc">{{ repo.description }}</p>
+                {% endif %}
+            </div>
+        </div>
+
+
+        <div class="repo-actions">
+            <a href="/download/{{ owner }}/{{ repo_name }}.zip" class="btn-primary">
+                <i class="bi bi-cloud-download"></i> دانلود ZIP
+            </a>
+            <a href="#releasesSection" class="btn-secondary">
+                <i class="bi bi-box-seam"></i> ریلیزها
+            </a>
+            <span class="btn-stat">
+                <i class="bi bi-star-fill text-warning"></i> {{ repo.stargazers_count }}
+            </span>
+            <span class="btn-stat">
+                <i class="bi bi-branch"></i> {{ repo.forks_count }}
+            </span>
+        </div>
+
+    </div>
+
+
+    <div class="clone-section">
+        <button type="button" class="clone-btn" id="cloneToggleBtn" onclick="toggleClone()">
+            <i class="bi bi-code-square"></i> Clone
+        </button>
+
+        <div id="cloneBox" class="clone-box">
+            <div class="clone-box-inner">
+                <code id="cloneCmd">git clone https://scorpian.ir/repos/{{ owner }}/{{ repo_name }}.git</code>
+                <button type="button" class="clone-copy" onclick="copyCloneCmd()">
+                    <i class="bi bi-clipboard"></i> Copy
+                </button>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="repo-files">
+        <div class="repo-files-header">
+            <h2 class="section-title"><i class="bi bi-folder2-open"></i> فایل‌ها</h2>
+            <span class="file-count">{{ contents|length if contents else 0 }} مورد</span>
+        </div>
+
+        {% if contents %}
+        <div class="repo-file-list">
+            {% for item in contents %}
+            <a href="{% if item.type == 'dir' %}
+                        /repos/{{ owner }}/{{ repo_name }}/tree/{{ item.path }}
+                     {% else %}
+                        /repos/{{ owner }}/{{ repo_name }}/blob/{{ item.path }}
+                     {% endif %}" class="repo-file-item">
+
+                <div class="repo-file-left">
+                    <div class="repo-file-icon">
+                        {% if item.type == "dir" %}
+                        <i class="bi bi-folder-fill fs-5"></i>
+                        {% else %}
+                        <i class="bi bi-file-earmark-code fs-5"></i>
+                        {% endif %}
+                    </div>
+                    <div>
+                        <div class="repo-file-name">{{ item.name }}</div>
+                        <div class="repo-file-path">{{ item.path }}</div>
+                    </div>
+                </div>
+
+                <span class="repo-file-type">{{ item.type }}</span>
+
+            </a>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="empty-state">
+            <i class="bi bi-folder-x fs-1 text-muted"></i>
+            <p class="empty-text">No files found.</p>
+        </div>
+        {% endif %}
+    </div>
+
+
+    {% if readme_html %}
+    <div class="glass-card-static" style="margin-top: 1.5rem;">
+        <h2 class="section-title"><i class="bi bi-book"></i> README</h2>
+        <div class="markdown-body">
+            {{ readme_html | safe }}
+        </div>
+    </div>
+    {% endif %}
+
+
+    <div id="releasesSection" class="release-section">
+        <h2 class="section-title"><i class="bi bi-box-seam"></i> ریلیزها</h2>
+
+        {% if releases %}
+        <div class="release-list">
+            {% for rel in releases %}
+            <div class="release-item">
+                <div class="release-header" onclick="toggleRelease('{{ rel.id }}')">
+                    <div>
+                        <div class="release-title">
+                            <i class="bi bi-tag-fill"></i> {{ rel.name or rel.tag_name }}
+                        </div>
+                        <div class="release-date">
+                            <i class="bi bi-calendar3"></i> {{ rel.published_at }}
+                        </div>
+                    </div>
+                    <i class="bi bi-chevron-down release-arrow" id="arrow-{{ rel.id }}"></i>
+                </div>
+
+                <div id="release-{{ rel.id }}" class="release-content">
+                    <div class="markdown-body">
+                        {{ rel.body_html | safe if rel.body_html else rel.body }}
+                    </div>
+
+                    {% if rel.assets %}
+                    <div class="release-assets">
+                        <h3 class="release-assets-title"><i class="bi bi-cloud-download"></i> لینک‌های دانلود</h3>
+                        <ul>
+                        {% for asset in rel.assets %}
+                            <li>
+                                <a href="/download/asset/{{ owner }}/{{ repo_name }}/{{ asset.id }}" class="asset-item">
+                                    <i class="bi bi-file-earmark-zip"></i>
+                                    {{ asset.name }} ({{ '%.2f' % (asset.size / 1024 / 1024) }} MB)
+                                </a>
+                            </li>
+                        {% endfor %}
+                        </ul>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="empty-state">
+            <i class="bi bi-box-open fs-1 text-muted"></i>
+            <p class="empty-text">ریلیزی وجود ندارد</p>
+        </div>
+        {% endif %}
+    </div>
+
+</div>
+
+
+<div id="notifOverlay" class="notif-overlay">
+    <div class="notif-box">
+        <div class="notif-title"><i class="bi bi-check2-circle"></i> کپی شد!</div>
+        <div class="notif-text">دستور کلون پروژه در کلیپ‌بورد شما قرار گرفت.</div>
+    </div>
+</div>
+
+
+<link rel="stylesheet" href="/static/highlite/vs2015.min.css">
+<script src="/static/highlite/highlight.min.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    document.querySelectorAll(".markdown-body pre code").forEach(function(block) {
+        hljs.highlightElement(block);
+    });
+});
+</script>
+
+
+<script>
+function toggleClone() {
+    var box = document.getElementById("cloneBox");
+    var btn = document.getElementById("cloneToggleBtn");
+    var isVisible = box.style.display === "block";
+    
+    if (isVisible) {
+        box.style.display = "none";
+        if (btn) {
+            btn.innerHTML = '<i class="bi bi-code-square"></i> Clone';
+        }
+    } else {
+        box.style.display = "block";
+        if (btn) {
+            btn.innerHTML = '<i class="bi bi-x-lg"></i> Close';
+        }
+    }
+}
+
+function copyCloneCmd() {
+    var text = document.getElementById("cloneCmd").innerText.trim();
+    navigator.clipboard.writeText(text);
+    document.getElementById("notifOverlay").classList.add("notif-show");
+    setTimeout(function() {
+        document.getElementById("notifOverlay").classList.remove("notif-show");
+    }, 1600);
+}
+
+function toggleRelease(id) {
+    var box = document.getElementById("release-" + id);
+    var arrow = document.getElementById("arrow-" + id);
+    if (!box || !arrow) return;
+
+    if (box.classList.contains("show")) {
+        box.classList.remove("show");
+        arrow.classList.remove("rotated");
+    } else {
+        box.classList.add("show");
+        arrow.classList.add("rotated");
+    }
+}
+</script>
+
+{% endblock %}

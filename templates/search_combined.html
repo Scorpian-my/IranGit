@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="search-page">
+
+    <a href="/" class="back-home-btn scale-hover">
+        <i class="bi bi-house-fill"></i> بازگشت به خانه
+    </a>
+
+    <h2 class="search-title text-gradient">نتایج جستجو برای "{{ query }}"</h2>
+
+    {% if users %}
+    <h3 class="section-title"><i class="bi bi-people"></i> کاربران</h3>
+    <div class="results-grid">
+        {% for user in users %}
+        <div class="result-card scale-hover">
+            <img src="/avatar/{{ user.login }}" alt="Avatar" class="avatar">
+            <h3 class="username">{{ user.login }}</h3>
+            <a href="/users/{{ user.login }}" class="view-btn">
+                <i class="bi bi-person-fill"></i> مشاهده پروفایل
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    {% if repos %}
+    <h3 class="section-title"><i class="bi bi-archive"></i> ریپوزیتوری‌ها</h3>
+    <div class="results-grid">
+        {% for repo in repos %}
+        <div class="result-card scale-hover">
+            <i class="bi bi-folder-check fs-1 text-info mb-2"></i>
+            <h3 class="repo-name">{{ repo.name }}</h3>
+            <p class="repo-desc">{{ repo.description or "بدون توضیحات" }}</p>
+            <a href="/repos/{{ repo.owner.login }}/{{ repo.name }}" class="view-btn">
+                <i class="bi bi-eye-fill"></i> مشاهده ریپو
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    {% if users or repos %}
+    <div class="pagination">
+        {% if page > 1 %}
+            <a href="/search?q={{ query }}&page={{ page - 1 }}" class="page-btn">
+                <i class="bi bi-chevron-right"></i>
+            </a>
+        {% endif %}
+
+        <span class="page-number"><i class="bi bi-1-circle"></i> {{ page }}</span>
+
+        {% if has_more %}
+            <a href="/search?q={{ query }}&page={{ page + 1 }}" class="page-btn">
+                <i class="bi bi-chevron-left"></i>
+            </a>
+        {% endif %}
+    </div>
+    {% endif %}
+
+</div>
+
+{% endblock %}
