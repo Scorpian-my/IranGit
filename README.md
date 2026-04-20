@@ -71,9 +71,9 @@
 ### ⚡ عملکرد و بهینه‌سازی
 
 #### 🔹 کش هوشمند در RAM  
-- LRU Cache  
-- TTL  
-- Circuit Breaker  
+- اضافه شدن LRU Cache  
+- اضافه شدن TTL  
+- اضافه شدن Circuit Breaker  
 - کاهش شدید تعداد درخواست‌های GitHub  
 - افزایش سرعت و پایداری
 
